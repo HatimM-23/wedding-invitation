@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f6f0e5" />
+  <meta name="description" content="A wedding invitation from Murtuza and Zahabiya." />
+  <title>Murtuza &amp; Zahabiya — Wedding Invitation</title>
+  <link rel="preload" as="image" href="./assets/landing-background.png" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="./main.js"></script>
+</head>
+<body>
+  <!-- STEP 1: The landing page. Replace assets/landing-background.png to change its artwork. -->
+  <main id="siteRoot">
+    <section class="landing" id="landing" aria-label="Wedding invitation opening">
+      <div class="scene-backdrop" aria-hidden="true"></div>
+      <img class="scene-image" id="sceneImage" src="./assets/landing-background.png" alt="" draggable="false" />
+      <div class="scene-tone" aria-hidden="true"></div>
+      <div class="landing-copy">
+        <p class="invitation-kicker reveal-line" id="invitationLine">
+          You have received a<br />
+          wedding invitation
+        </p>
+      </div>
+      <p class="open-prompt" id="openPrompt" aria-hidden="true"><span></span><b>Click to open</b><span></span><i>⌄</i></p>
+      <button class="open-target" id="openTarget" type="button" disabled aria-label="Open the wedding invitation"></button>
+    </section>
+
+    <!-- STEP 2 onward: one composed image keeps the stationery layout stable on every screen. -->
+    <div class="invitation-site" id="invitationSite" aria-hidden="true">
+      <section class="opening-collage" id="openingCollage" aria-label="Wedding invitation details">
+        <!-- The stationery is one composed image; the car remains a separate animated asset. -->
+        <div class="opening-art-frame" id="openingArtFrame">
+          <img class="opening-composition" id="openingComposition" src="./assets/opening-composition.png" alt="Wedding invitation flat lay with an open envelope, couple photographs, invitation card, keepsake tag and Read me tag" draggable="false" />
+          <button class="readme-hotspot" id="readmeButton" type="button" aria-label="Read a note from the couple" aria-haspopup="dialog" aria-controls="letterModal"></button>
+        </div>
+        <!-- The car remains a separate transparent asset and drives over the fading-in composition. -->
+        <img class="wedding-car-art" id="weddingCar" src="./assets/wedding-car.png" alt="Illustrated vintage wedding car carrying the bride and groom" draggable="false" />
+      </section>
+
+      <!-- Continuous scroll content: this is not a page-by-page slideshow. -->
+      <!-- Continuous illustrated wedding timeline artwork. -->
+      <section class="timeline-section" id="timelineSection" aria-label="Wedding event timeline">
+        <img class="continuous-timeline-art" src="./assets/continuous-event-timeline.png" alt="Continuous illustrated wedding timeline showing Sharbat, Engagement, Darees, Baraat and Nikah, and Reception" loading="lazy" />
+      </section>
+
+      <!-- Single supplied wardrobe-guidelines artwork, kept unchanged. -->
+      <section class="wardrobe-guidelines-section" id="dressCodeSection" aria-label="Wardrobe guidelines for the wedding events">
+        <img class="wardrobe-guidelines-art" src="./assets/wardrobe-guidelines.png" alt="Wardrobe guidelines showing attire suggestions for Sharbat Soirée, Green Symphony, Noor-e-Mehfil, Ivory Eden, and Shah-e-Zar" loading="lazy" />
+      </section>
+
+      <!-- RSVP: the supplied portrait artwork is the backdrop; controls remain real HTML. -->
+      <section class="rsvp-section" id="rsvpSection" aria-label="Wedding RSVP">
+        <div class="rsvp-artwork-wrap">
+          <img class="rsvp-background-art" src="./assets/rsvp-background.png" alt="Ornate ivory, burgundy and antique-gold invitation asking Will you be joining us?" loading="lazy" />
+          <div class="rsvp-actions" aria-label="Choose your response">
+            <!-- Transparent hit areas sit directly over the button artwork in rsvp-background.png. -->
+            <button class="rsvp-choice rsvp-choice-yes" id="rsvpButton" type="button" aria-label="Yes, gladly! Open the RSVP form" aria-haspopup="dialog" aria-controls="rsvpModal"></button>
+            <button class="rsvp-choice rsvp-choice-no" id="tryAgainButton" type="button" aria-label="No, sorry. Show the Try Again note" aria-haspopup="dialog" aria-controls="tryAgainModal"></button>
+          </div>
+        </div>
+      </section>
+      <footer class="closing-section" aria-label="Wedding contact and greeting">
+        <a class="footer-image-link" href="tel:8888257452" aria-label="Emergency contact: 8888257452">
+          <img class="footer-image" src="./assets/wedding-footer.png" alt="Made with love by Hatim. Congratulations Bhai Bhabhi. Emergency contact: 8888257452." loading="lazy" />
+        </a>
+      </footer>
+    </div>
+  </main>
+
+  <!-- POPUP 1: The note artwork is shown as supplied. -->
+  <div class="modal-backdrop letter-backdrop" id="letterModal" role="dialog" aria-modal="true" aria-label="A note from the couple" hidden>
+    <article class="note-image-modal">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close heartfelt message">×</button>
+      <img src="./assets/note-from-us.png" alt="A Note from Us: Our journey is made special by the love and support of our family and friends like you. We feel truly blessed to have you be a part of these celebrations. We can’t wait to share these beautiful moments with you." />
+    </article>
+  </div>
+
+  <!-- Playful NO response: use the supplied Try Again note artwork unchanged. -->
+  <div class="modal-backdrop try-again-backdrop" id="tryAgainModal" role="dialog" aria-modal="true" aria-label="Try again" hidden>
+    <article class="try-again-image-modal">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close try again note">×</button>
+      <img src="./assets/try-again-note.png" alt="Try again XX" />
+    </article>
+  </div>
+
+  <!-- RSVP form: frontend prototype; connect a backend to store submissions. -->
+  <div class="modal-backdrop" id="rsvpModal" role="dialog" aria-modal="true" aria-labelledby="rsvpModalTitle" hidden>
+    <article class="rsvp-modal modal-paper">
+      <button class="modal-close" type="button" data-close-modal aria-label="Close RSVP form">×</button>
+      <div id="rsvpFormView">
+        <p class="eyebrow">With joy, we’ll save you a place</p>
+        <h2 id="rsvpModalTitle">Kindly join us</h2>
+        <p class="modal-intro">Please share your details so we can welcome you warmly.</p>
+        <form id="rsvpForm">
+          <label for="guestName">Your name</label>
+          <input id="guestName" name="guestName" type="text" autocomplete="name" placeholder="Enter your full name" required />
+
+          <label for="whatsappNumber">WhatsApp number</label>
+          <input id="whatsappNumber" name="whatsappNumber" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" minlength="10" title="Enter a 10-digit WhatsApp number" required />
+
+          <div class="rsvp-form-grid">
+            <div class="rsvp-field">
+              <label for="arrivalDate">Arrival date</label>
+              <input id="arrivalDate" name="arrivalDate" type="date" required />
+            </div>
+            <div class="rsvp-field">
+              <label for="departureDate">Departure date</label>
+              <input id="departureDate" name="departureDate" type="date" required />
+            </div>
+            <div class="rsvp-field">
+              <label for="guestCount">Number of guests</label>
+              <input id="guestCount" name="guestCount" type="number" inputmode="numeric" min="1" max="30" step="1" placeholder="e.g. 2" required />
+            </div>
+            <div class="rsvp-field">
+              <label for="transportMode">Mode of transport</label>
+              <input id="transportMode" name="transportMode" type="text" placeholder="Flight, train, car…" required />
+            </div>
+          </div>
+          <button class="submit-rsvp" type="submit">Send response <span aria-hidden="true">↗</span></button>
+          <p class="form-note">Your response will be confirmed on screen. Online response storage will be connected before the website goes live.</p>
+        </form>
+      </div>
+      <div class="thank-you-view" id="thankYouView" hidden>
+        <p class="eyebrow">Response received</p><div class="thank-you-mark" aria-hidden="true">✧</div>
+        <h2>Thank you!</h2><p>Your response means a lot to us. We can’t wait to celebrate together.</p>
+        <p class="letter-signoff">Murtuza &amp; Zahabiya</p>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

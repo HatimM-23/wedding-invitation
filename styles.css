@@ -1,0 +1,662 @@
+/* ---------------------------------------------------------------
+   MURTUZA & ZAHABIYA — global theme and responsive layout
+   Main palette and type sizes live here for easy editing.
+   --------------------------------------------------------------- */
+:root {
+  --ivory: #F6F0E5;
+  --paper: #fffaf1;
+  --burgundy: #541D2B;
+  --burgundy-soft: #7c3a43;
+  --gold: #B49352;
+  --gold-light: #d8c18c;
+  --brown: #382B27;
+  --sage: #7c8568;
+  --ease-luxury: cubic-bezier(.22,.72,.2,1);
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: 'Trebuchet MS', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--ivory); }
+body { margin: 0; color: var(--brown); background: var(--ivory); font-family: var(--serif); }
+button, input, textarea, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* Landing scene: artwork and text fade/reveal together, prompt follows them. */
+.landing { position: relative; width: 100%; height: 100svh; min-height: 520px; overflow: hidden; isolation: isolate; background: var(--ivory); }
+.scene-backdrop, .scene-image, .scene-tone { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene-backdrop { background: center / cover no-repeat url('./assets/landing-background.png'); filter: blur(22px) saturate(.8); transform: scale(1.08); opacity: .34; }
+.scene-image { z-index: 1; object-fit: cover; object-position: center; opacity: 0; animation: scene-fade 1400ms ease 100ms forwards; user-select: none; pointer-events: none; }
+.scene-tone { z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(246,240,229,.24), transparent 35%, rgba(56,43,39,.05)); }
+
+/* Position both lines of invitation text higher on the screen */
+.landing-copy {
+  position: absolute;
+  z-index: 3;
+  /* top: clamp(40px, 8vh, 150px); */
+  top: clamp(60px, 10vh, 180px);
+  left: 50%;
+  width: min(92%, 980px);
+  transform: translateX(-50%);
+  text-align: center;
+  color: var(--brown);
+}
+
+/* Introductory sentence: two lines, stronger weight for readability */
+.invitation-kicker {
+  max-width: 340px;
+  margin: 0 auto;
+  /* font-size: clamp(1.2rem, 3.1vw, 2rem); */
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.8;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #553b25;
+  text-wrap: balance;
+}
+
+/* Couple's names */
+.couple-names {
+  margin: 8px 0 0;
+  font-size: clamp(2.2rem, 6vw, 5.3rem);
+  line-height: 1.06;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  color: #54212a;
+}
+
+.ampersand {
+  color: #94702e;
+  font-family: var(--serif);
+}
+
+.reveal-line { clip-path: inset(0 100% 0 0); animation: text-reveal 1450ms var(--ease-luxury) 700ms forwards; }
+.couple-names.reveal-line { animation-delay: 700ms; }
+.open-prompt { position: absolute; z-index: 4; bottom: max(28px, env(safe-area-inset-bottom)); left: 50%; display: flex; align-items: center; justify-content: center; gap: 13px; width: max-content; transform: translateX(-50%) translateY(8px); margin: 0; color: var(--burgundy); font: 700 .76rem var(--serif); letter-spacing: .17em; text-transform: uppercase; opacity: 0; animation: prompt-appear 600ms ease 1750ms forwards; }
+.open-prompt span { width: clamp(20px, 5vw, 58px); height: 1px; background: var(--gold); }
+.open-prompt i { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 1.2rem; font-style: normal; }
+.open-target { position: absolute; z-index: 5; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.open-target:disabled { pointer-events: none; }
+.open-target:focus-visible { outline: 2px solid var(--gold); outline-offset: -8px; }
+.landing.is-opened { display: none; }
+
+/* Main page stays hidden until the user clicks the landing scene. */
+/* Keep the invitation content out of layout until the guest opens it.
+   opacity/visibility alone still leave its full height scrollable on the landing page. */
+.invitation-site { display: none; position: relative; background: var(--ivory); opacity: 0; visibility: hidden; }
+.invitation-site.is-visible { display: block; opacity: 1; visibility: visible; }
+.opening-collage { position: relative; min-height: max(760px, 110svh); overflow: hidden; background: var(--ivory); isolation: isolate; }
+.car-blur-layer { position: absolute; z-index: 1; inset: 0; background: var(--ivory); filter: blur(0); transition: filter 650ms ease; pointer-events: none; }
+.opening-collage.car-passing .car-blur-layer { filter: blur(3.2px); }
+/* Main visual layers are absolutely positioned within the opening collage. */
+.envelope-composition { position: absolute; z-index: 3; top: 31%; left: 50%; width: min(86vw, 650px, 70svh); aspect-ratio: 1312 / 1199; opacity: 0; transform: translate(-50%, -50%) translateY(15px) scale(.97); pointer-events: none; }
+.open-envelope-art, .envelope-front-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: fill; user-select: none; pointer-events: none; }
+.open-envelope-art { z-index: 1; }
+.couple-polaroid-art { position: absolute; z-index: 2; top: 11%; left: 7%; width: 24%; height: auto; opacity: 0; transform: translateY(10px) rotate(10deg) scale(.96); filter: drop-shadow(0 6px 7px rgba(56,43,39,.13)); pointer-events: none; }
+.envelope-front-art { z-index: 3; /* This layer is a duplicate front view for the pocket illusion. */ clip-path: polygon(0 39%, 50% 77%, 100% 39%, 100% 100%, 0 100%); }
+.together-tag { position: absolute; z-index: 5; top: 17%; left: 59%; width: clamp(115px, 21vw, 230px); height: auto; opacity: 0; transform: rotate(7deg); pointer-events: none; }
+.wedding-card { position: absolute; z-index: 6; top: 49%; left: max(3%, calc(50% - 440px)); width: clamp(205px, 36vw, 370px); min-height: 390px; padding: clamp(22px, 3vw, 38px) clamp(17px, 2.8vw, 31px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.42); outline-offset: -7px; background: linear-gradient(145deg, #fffaf0, #f4e8d5); box-shadow: 0 15px 30px rgba(56,43,39,.15); text-align: center; opacity: 0; transform: translateX(-45vw) rotate(-3deg); }
+.wedding-card::before, .wedding-card::after { content: ''; position: absolute; width: 27px; height: 27px; border: 1px solid var(--gold); opacity: .65; }
+.wedding-card::before { top: 11px; left: 11px; border-right: 0; border-bottom: 0; }
+.wedding-card::after { right: 11px; bottom: 11px; border-left: 0; border-top: 0; }
+.card-floral-mark { color: var(--gold); font-size: 1.25rem; margin-bottom: 10px; }
+.card-kicker, .card-invite-line { margin: 0; font-size: clamp(.55rem, 1vw, .7rem); line-height: 1.7; letter-spacing: .15em; text-transform: uppercase; }
+.wedding-card h2 { margin: 12px 0 6px; color: var(--burgundy); font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.06; font-weight: 400; font-style: italic; }
+.wedding-card h2 span { color: var(--gold); font-style: normal; }
+.card-divider { margin: 9px auto; color: var(--gold); }
+.card-location { margin: 18px 0 0; color: var(--burgundy); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+.park-polaroid { position: absolute; z-index: 5; top: 32%; right: max(2%, calc(50% - 440px)); width: clamp(155px, 28vw, 275px); height: auto; opacity: 0; transform: translateX(42vw) rotate(-15deg); filter: drop-shadow(0 10px 12px rgba(56,43,39,.2)); pointer-events: none; }
+.readme-tag { position: absolute; z-index: 8; bottom: 9%; left: 50%; width: 155px; min-height: 64px; display: grid; place-items: center; padding: 13px 18px; border: 1px solid var(--gold); border-radius: 2px; background: #fff8ec; box-shadow: 0 7px 15px rgba(56,43,39,.14); color: var(--burgundy); cursor: pointer; font-size: 1.1rem; font-style: italic; opacity: 0; transform: translate(-50%, 140px) rotate(4deg); }
+.readme-tag img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.readme-tag span { position: relative; z-index: 2; }
+.wedding-car-art { position: absolute; z-index: 12; top: 54%; left: 0; width: min(138vw, 980px); max-width: none; height: auto; opacity: 0; transform: translateX(-115%); pointer-events: none; }
+.filler-ribbon { position: absolute; z-index: 4; width: clamp(95px, 19vw, 210px); height: auto; opacity: .68; pointer-events: none; }
+.ribbon-one { top: 10%; right: -2%; transform: rotate(26deg); }
+.ribbon-two { bottom: 18%; left: -5%; transform: rotate(-33deg) scaleX(-1); opacity: .35; }
+/* Opening sequence timings: all elements appear while the car crosses in 3.5 seconds. */
+.invitation-site.is-opening .envelope-composition { animation: envelope-arrive 650ms var(--ease-luxury) 100ms forwards; }
+.invitation-site.is-opening .couple-polaroid-art { animation: polaroid-arrive 700ms var(--ease-luxury) 420ms forwards; }
+.invitation-site.is-opening .together-tag { animation: fade-in 700ms ease 800ms forwards; }
+.invitation-site.is-opening .wedding-card { animation: card-from-left 900ms var(--ease-luxury) 1050ms forwards; }
+.invitation-site.is-opening .park-polaroid { animation: photo-from-right 900ms var(--ease-luxury) 1450ms forwards; }
+.invitation-site.is-opening .readme-tag { animation: tag-from-bottom 700ms var(--ease-luxury) 2050ms forwards; }
+.invitation-site.is-opening .wedding-car-art { animation: car-drive 2500ms cubic-bezier(.18,.68,.28,1) 100ms forwards; }
+.invitation-site.is-opening .car-blur-layer { animation: soften-and-clear 3500ms ease 100ms forwards; }
+
+/* Keep the collage visible after the 3.5-second entrance sequence ends.
+   The animation class is removed to stop the car/blur effects, so these final
+   styles preserve the last frame of each stationary element. */
+.invitation-site.is-settled .envelope-composition {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+.invitation-site.is-settled .couple-polaroid-art {
+  opacity: 1;
+  transform: translateY(0) rotate(10deg) scale(1);
+}
+.invitation-site.is-settled .together-tag {
+  opacity: 1;
+}
+.invitation-site.is-settled .wedding-card {
+  opacity: 1;
+  transform: translateX(0) rotate(-3deg);
+}
+.invitation-site.is-settled .park-polaroid {
+  opacity: 1;
+  transform: translateX(0) rotate(-15deg);
+}
+.invitation-site.is-settled .readme-tag {
+  opacity: 1;
+  transform: translate(-50%, 0) rotate(4deg);
+}
+/* The car should finish off-screen and stay hidden; only the static collage remains. */
+.invitation-site.is-settled .wedding-car-art {
+  opacity: 0;
+  transform: translateX(115vw);
+}
+
+/* Scroll sections */
+.section-shell { width: min(100%, 1060px); margin: 0 auto; padding: clamp(70px, 10vw, 130px) clamp(18px, 5vw, 60px); }
+.section-heading { position: relative; z-index: 2; margin: 0 auto 50px; max-width: 600px; text-align: center; }
+.eyebrow { margin: 0 0 12px; color: var(--gold); font: 700 .68rem var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.section-heading h2, .dress-code-copy h2, .rsvp-section h2 { margin: 0; color: var(--burgundy); font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 400; font-style: italic; }
+.section-heading > p:last-child { margin: 14px 0 0; color: #78695d; font-size: 1rem; }
+/* Event timeline: two compact cards fit in the viewport; the section heading stays visible while browsing events. */
+.timeline-section { position: relative; }
+.timeline-heading { position: sticky; top: 0; z-index: 8; padding: 16px 0 18px; margin-bottom: 24px; background: linear-gradient(to bottom, var(--ivory) 78%, rgba(246,240,229,0)); }
+.timeline { position: relative; display: flex; flex-direction: column; gap: 22px; padding: 4px 0 24px; }
+.event-row { position: relative; z-index: 1; display: grid; grid-template-columns: clamp(108px, 18vw, 190px) minmax(0, 1fr); align-items: stretch; gap: clamp(14px, 3vw, 28px); width: 100%; min-height: clamp(210px, 30vh, 270px); padding: 14px; border: 1px solid rgba(180,147,82,.45); border-radius: 18px 44px 18px 44px; background: rgba(255,250,241,.72); box-shadow: 0 10px 28px rgba(56,43,39,.055); scroll-margin-top: 130px; }
+.event-row:nth-child(even) { grid-template-columns: minmax(0, 1fr) clamp(108px, 18vw, 190px); border-radius: 44px 18px 44px 18px; }
+.event-art { display: block; width: 100%; height: 100%; min-height: 180px; max-height: 250px; object-fit: cover; object-position: center; border-radius: 12px 34px 12px 34px; }
+.event-row:nth-child(even) .event-art { grid-column: 2; grid-row: 1; border-radius: 34px 12px 34px 12px; }
+.event-card { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(14px, 2.4vw, 26px); border: 1px solid rgba(180,147,82,.78); outline: 1px solid rgba(180,147,82,.2); outline-offset: -6px; border-radius: 10px 30px 10px 30px; background: rgba(255,250,241,.95); }
+.event-number { position: absolute; top: 12px; right: 18px; color: rgba(180,147,82,.72); font: 500 .75rem var(--sans); letter-spacing: .15em; }
+.event-overline { margin: 0 0 4px; color: var(--gold); font: .62rem var(--sans); letter-spacing: .15em; text-transform: uppercase; }
+.event-card h3 { margin: 0 0 12px; color: var(--burgundy); font-family: var(--serif); font-size: clamp(1.7rem, 3.2vw, 2.6rem); font-weight: 400; font-style: italic; line-height: 1.08; }
+.event-detail { display: flex; align-items: baseline; gap: 10px; margin: 0 0 6px; color: #6f4a2f; font-size: clamp(.72rem, 1.3vw, .88rem); line-height: 1.45; letter-spacing: .045em; }
+.detail-icon { flex: 0 0 15px; color: #a86a20; font-size: 1.05rem; font-weight: 700; text-align: center; }
+.dress-code-section { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: clamp(22px, 6vw, 70px); border-top: 1px solid rgba(180,147,82,.25); border-bottom: 1px solid rgba(180,147,82,.25); }
+.dress-code-art-wrap { overflow: hidden; border-radius: 3px; }
+.dress-code-art { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+.dress-code-copy p:last-child { max-width: 340px; color: #75685d; font-size: 1.05rem; line-height: 1.8; }
+.rsvp-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.rsvp-envelope-button { position: relative; width: min(75vw, 320px); margin: 28px 0 8px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: transform 350ms var(--ease-luxury); }
+.rsvp-envelope-button:hover { transform: translateY(-5px) rotate(-1deg); }
+.rsvp-envelope-button img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 16px rgba(56,43,39,.12)); }
+.rsvp-envelope-button span { position: absolute; left: 50%; bottom: 24%; transform: translateX(-50%); color: var(--burgundy); font-size: 1rem; letter-spacing: .16em; text-transform: uppercase; }
+.rsvp-hint { color: #75685d; font-size: .9rem; }
+.closing-section { padding: 55px 18px 70px; text-align: center; background: #f1e7d8; color: #75685d; }
+.closing-flourish { color: var(--gold); font-size: 1.5rem; }
+.closing-section h2 { margin: 8px 0; color: var(--burgundy); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 400; font-style: italic; }
+.closing-location { font: .68rem var(--sans); letter-spacing: .15em; text-transform: uppercase; }
+.reveal-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity 800ms ease, transform 850ms var(--ease-luxury); }
+.reveal-on-scroll.is-in-view { opacity: 1; transform: translateY(0); }
+
+/* Modal windows are parchment letters; the dim layer is translucent. */
+.modal-backdrop { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(56,43,39,.6); backdrop-filter: blur(3px); }
+.modal-paper { position: relative; width: min(60vw, 680px); max-height: min(84svh, 850px); overflow: auto; padding: clamp(28px, 5vw, 58px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.35); outline-offset: -8px; background: #fffaf1; box-shadow: 0 24px 90px rgba(24,15,12,.24); }
+.modal-paper::before { content: '✧'; display: block; margin-bottom: 16px; color: var(--gold); text-align: center; font-size: 1.25rem; }
+.modal-close { position: absolute; z-index: 2; top: 13px; right: 16px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--burgundy); font-size: 1.8rem; line-height: 1; cursor: pointer; }
+.modal-close:hover { background: rgba(180,147,82,.12); }
+.letter-modal h2, .rsvp-modal h2 { margin: 0 0 18px; color: var(--burgundy); font-size: clamp(1.7rem, 3.6vw, 2.6rem); font-weight: 400; font-style: italic; }
+.letter-copy { color: #5f5148; font-size: 1rem; line-height: 1.9; }
+.letter-signoff { margin: 25px 0 0; color: #6c5a4d; line-height: 1.8; }
+.letter-signoff span { color: var(--burgundy); font-size: 1.5rem; font-style: italic; }
+.modal-intro { margin: -5px 0 22px; color: #75685d; line-height: 1.7; }
+.rsvp-modal form { display: flex; flex-direction: column; gap: 9px; }
+.rsvp-modal form > label, .rsvp-modal legend { color: var(--burgundy); font-size: .82rem; }
+.rsvp-modal input:not([type=radio]), .rsvp-modal select, .rsvp-modal textarea { width: 100%; margin: 0 0 8px; padding: 12px 13px; border: 1px solid rgba(180,147,82,.55); border-radius: 0; background: #fffdf8; color: var(--brown); outline: none; }
+.rsvp-modal input:focus, .rsvp-modal select:focus, .rsvp-modal textarea:focus { border-color: var(--burgundy); box-shadow: 0 0 0 2px rgba(84,29,43,.08); }
+.rsvp-modal fieldset { display: flex; flex-direction: column; gap: 10px; margin: 3px 0 9px; padding: 12px 14px; border: 1px solid rgba(180,147,82,.45); }
+.rsvp-modal legend { padding: 0 5px; }
+.radio-label { display: flex; align-items: center; gap: 9px; color: #5f5148; font-size: .9rem; }
+.radio-label input { accent-color: var(--burgundy); }
+.rsvp-modal label span { color: #8e8176; font-size: .75rem; }
+.submit-rsvp { margin-top: 8px; padding: 14px 20px; border: 1px solid var(--burgundy); background: var(--burgundy); color: #fffaf1; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+.submit-rsvp:hover { background: #6a2937; }
+.form-note { margin: 8px 0 0; color: #8e8176; font: .7rem var(--sans); line-height: 1.5; }
+.thank-you-view { padding: 22px 0; text-align: center; }
+.thank-you-mark { color: var(--gold); font-size: 3rem; }
+.thank-you-view > p:not(.eyebrow) { color: #75685d; line-height: 1.8; }
+.screen-reader-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+/* Keyframes are named after their purpose to make timing easy to adjust. */
+@keyframes scene-fade { from { opacity: 0; transform: scale(1.015); } to { opacity: 1; transform: scale(1); } }
+@keyframes text-reveal { to { clip-path: inset(0 0 0 0); } }
+@keyframes prompt-appear { to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+@keyframes envelope-arrive { from { opacity: 0; transform: translate(-50%,-50%) translateY(15px) scale(.97); } to { opacity: 1; transform: translate(-50%,-50%) translateY(0) scale(1); } }
+@keyframes polaroid-arrive { from { opacity: 0; transform: translateY(10px) rotate(10deg) scale(.96); } to { opacity: 1; transform: translateY(0) rotate(10deg) scale(1); } }
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes card-from-left { from { opacity: 0; transform: translateX(-45vw) rotate(-3deg); } to { opacity: 1; transform: translateX(0) rotate(-3deg); } }
+@keyframes photo-from-right { from { opacity: 0; transform: translateX(42vw) rotate(-15deg); } to { opacity: 1; transform: translateX(0) rotate(-15deg); } }
+@keyframes tag-from-bottom { from { opacity: 0; transform: translate(-50%,140px) rotate(4deg); } to { opacity: 1; transform: translate(-50%,0) rotate(4deg); } }
+@keyframes car-drive { 0% { opacity: 0; transform: translateX(-115%); } 8% { opacity: 1; } 88% { opacity: 1; } 100% { opacity: 0; transform: translateX(115vw); } }
+@keyframes soften-and-clear { 0%, 10% { filter: blur(0); } 22%, 76% { filter: blur(3.2px); } 100% { filter: blur(0); } }
+
+@media (min-aspect-ratio: 4/5) {
+  .scene-image { object-fit: contain; }
+  .scene-backdrop { opacity: .48; }
+  .landing-copy {   top: clamp(60px, 10vh, 180px); } 
+  .invitation-kicker { max-width: 680px;   font-size: clamp(1rem, 1.5vw, 1.2rem);}
+  .couple-names { font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
+}
+@media (max-width: 700px) {
+  .landing { min-height: 560px; }
+  .scene-image { object-fit: cover; object-position: center; }
+  .landing-copy {   top: clamp(80px, 12vh, 250px); width: 92%; }
+  .invitation-kicker { max-width: 360px;   font-size: clamp(0.85rem, 3.4vw, 1rem); line-height: 1.65; letter-spacing: .1em; text-wrap: balance; }
+  .couple-names { margin-top: 9px; font-size: clamp(2rem, 7.5vw, 2.85rem); line-height: 1.12; text-wrap: balance; }
+  .open-prompt { bottom: max(25px, env(safe-area-inset-bottom)); gap: 8px; font-size: .68rem; letter-spacing: .14em; }
+  .opening-collage { min-height: 800px; }
+  .envelope-composition { top: 29%; width: min(96vw, 70svh); }
+  .together-tag { top: 17%; left: 60%; width: clamp(100px, 29vw, 160px); }
+  .wedding-card { top: 48%; left: 3%; width: 47%; min-height: 330px; padding: 23px 13px; }
+  .wedding-card h2 { font-size: clamp(1.45rem, 6vw, 2rem); }
+  .card-kicker, .card-invite-line { font-size: .51rem; letter-spacing: .1em; }
+  .card-location { font-size: .56rem; letter-spacing: .09em; }
+  .park-polaroid { top: 34%; right: 1%; width: 39%; }
+  .readme-tag { bottom: 8%; width: 125px; min-height: 54px; font-size: 1rem; }
+  .wedding-car-art { top: 53%; width: 145vw; }
+  .filler-ribbon { width: 24vw; }
+  .section-shell { padding: 70px 17px; }
+  .section-heading { margin-bottom: 38px; }
+  .timeline-heading { top: 0; padding: 12px 0 16px; margin-bottom: 18px; }
+  .timeline { gap: 16px; }
+  .event-row, .event-row:nth-child(even) { grid-template-columns: 92px minmax(0,1fr); gap: 10px; min-height: 190px; padding: 9px; border-radius: 14px 28px 14px 28px; }
+  .event-row:nth-child(even) .event-art { grid-column: 1; grid-row: 1; border-radius: 10px 22px 10px 22px; }
+  .event-art { min-height: 170px; max-height: 220px; border-radius: 10px 22px 10px 22px; }
+  .event-card { padding: 14px 12px; border-radius: 8px 22px 8px 22px; }
+  .event-card h3 { font-size: clamp(1.25rem, 5.5vw, 1.7rem); margin-bottom: 9px; }
+  .event-overline { font-size: .48rem; letter-spacing: .09em; }
+  .event-detail { gap: 6px; font-size: .68rem; letter-spacing: 0; line-height: 1.35; }
+  .detail-icon { flex-basis: 12px; font-size: .9rem; }
+  .event-number { top: 8px; right: 12px; font-size: .62rem; }
+  .dress-code-section { grid-template-columns: 1fr; gap: 25px; }
+  .dress-code-art-wrap { max-height: 350px; }
+  .dress-code-art { max-height: 350px; object-fit: contain; }
+  .dress-code-copy { text-align: center; }
+  .dress-code-copy p:last-child { margin-left: auto; margin-right: auto; }
+  .rsvp-envelope-button { width: min(76vw, 290px); }
+  .modal-backdrop { padding: 14px; }
+  .modal-paper { width: min(92vw, 540px); max-height: 88svh; padding: 36px 25px 28px; }
+  .letter-copy { font-size: .93rem; line-height: 1.8; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal-on-scroll { opacity: 1; transform: none; }
+}
+
+
+/* ---------------------------------------------------------------
+   SIMPLIFIED OPENING SCENE
+   The landing-page rules above are intentionally unchanged.
+   The post-click composition is one image, so stationery layers never drift apart.
+   --------------------------------------------------------------- */
+.invitation-site { background: var(--ivory); }
+.opening-collage {
+  position: relative; min-height: 100svh; padding: 0; overflow: hidden;
+  background: var(--ivory); isolation: isolate;
+}
+.opening-art-frame {
+  position: relative; width: min(100%, 620px); margin: 0 auto; line-height: 0;
+  opacity: .06; transform: scale(1.012); transform-origin: center top;
+}
+.opening-composition { display: block; width: 100%; height: auto; user-select: none; pointer-events: none; }
+/* Fade the full artwork from a faint preview to its full contrast while the car passes. */
+.invitation-site.is-opening .opening-art-frame { animation: composition-reveal 8000ms ease-out forwards; }
+.invitation-site.is-settled .opening-art-frame { opacity: 1; transform: none; }
+.wedding-car-art {
+  position: absolute; z-index: 20; top: 44%; left: 0; width: min(1000px, 140vw); max-width: none; height: auto;
+  opacity: 0; transform: translateX(-120%); pointer-events: none;
+}
+.invitation-site.is-opening .wedding-car-art { animation: car-drive 8000ms cubic-bezier(.18,.68,.28,1) 50ms forwards; }
+.invitation-site.is-settled .wedding-car-art { opacity: 0; visibility: hidden; }
+/* Prevent scroll on the landing page only; after opening, normal page scrolling is restored. */
+body:has(.landing:not(.is-opened)) { overflow: hidden; }
+@keyframes composition-reveal {
+  0% { opacity: .06; transform: scale(1.012); filter: saturate(.72); }
+  100% { opacity: 1; transform: scale(1); filter: saturate(1); }
+}
+@media (min-width: 701px) {
+  .opening-art-frame { width: min(100%, 700px); }
+  .wedding-car-art { top: 42%; }
+}
+@media (max-width: 700px) {
+  .opening-collage { min-height: 0; }
+  .opening-art-frame { width: 100%; }
+  .wedding-car-art { top: 43%; width: 150vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-site.is-opening .opening-art-frame { animation-duration: .01ms; }
+  .invitation-site.is-opening .wedding-car-art { animation-duration: .01ms; }
+}
+
+
+/* Transparent click target precisely overlays the Read me tag in the composed artwork. */
+.opening-art-frame { position: relative; }
+.readme-hotspot {
+  position: absolute; z-index: 15; left: 68.5%; top: 79.5%; width: 27%; height: 17%;
+  padding: 0; border: 0; border-radius: 4px; background: transparent; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.readme-hotspot:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
+.letter-backdrop { background: rgba(35, 24, 20, .22); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
+.note-image-modal {
+  position: relative; width: min(94vw, 1500px); max-height: 90svh; display: grid; place-items: center;
+}
+.note-image-modal img {
+  display: block; width: 100%; max-height: 86svh; object-fit: contain;
+  filter: drop-shadow(0 18px 45px rgba(24,15,12,.25));
+}
+.note-image-modal .modal-close {
+  top: -12px; right: -12px; width: 42px; height: 42px; border: 1px solid rgba(180,147,82,.75);
+  background: #fffaf1; box-shadow: 0 4px 16px rgba(24,15,12,.18); font-size: 2rem;
+}
+@media (max-width: 700px) {
+  .readme-hotspot { left: 67%; top: 79%; width: 29%; height: 18%; }
+  .note-image-modal { width: 96vw; }
+  .note-image-modal .modal-close { top: -14px; right: -5px; }
+}
+
+
+/* Event timeline: preserve the supplied artwork exactly, stacked vertically. */
+.timeline-section {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  overflow: clip;
+  background: #f6f0e5;
+}
+.event-panel {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+.event-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  object-fit: contain;
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+
+/* Wardrobe guidelines: supplied artwork as one continuous panel. */
+.wardrobe-guidelines-section {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background: #f6f0e5;
+}
+.wardrobe-guidelines-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  object-fit: contain;
+}
+
+/* ---------------------------------------------------------------
+   RSVP — mobile-first illustrated invitation with real HTML controls
+   --------------------------------------------------------------- */
+.rsvp-section {
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(12px, 3vw, 34px) 0 clamp(36px, 7vw, 80px);
+  display: block;
+  text-align: center;
+  background: var(--ivory);
+}
+.rsvp-artwork-wrap {
+  position: relative;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  isolation: isolate;
+  line-height: 0;
+  filter: drop-shadow(0 14px 22px rgba(67, 39, 24, .12));
+}
+.rsvp-background-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+.rsvp-actions {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  line-height: 1.2;
+}
+.rsvp-choice {
+  position: absolute;
+  left: 50%;
+  width: 56%;
+  height: 6.9%;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateX(-50%);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+/* The supplied RSVP artwork already contains the visible button labels and decoration.
+   These real HTML buttons are transparent hit areas aligned over that artwork. */
+.rsvp-choice-yes { top: 53.4%; }
+.rsvp-choice-no { top: 61.6%; }
+.rsvp-choice:hover { background: rgba(255, 255, 255, .035); }
+.rsvp-choice:active { transform: translateX(-50%) scale(.985); }
+.rsvp-choice:focus-visible {
+  outline: 2px solid rgba(84, 29, 43, .9);
+  outline-offset: 3px;
+  background: rgba(255, 255, 255, .08);
+}
+
+/* Modal entrances are gentle; all modal content remains responsive and keyboard dismissible. */
+.modal-backdrop:not([hidden]) { animation: modal-backdrop-in 260ms ease-out both; }
+.modal-backdrop:not([hidden]) > article { animation: modal-content-in 360ms cubic-bezier(.2,.75,.3,1) both; }
+@keyframes modal-backdrop-in { from { opacity: 0; backdrop-filter: blur(0); } to { opacity: 1; backdrop-filter: blur(3px); } }
+@keyframes modal-content-in { from { opacity: 0; transform: translateY(10px) scale(.975); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.try-again-backdrop { background: rgba(35, 24, 20, .24); backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px); }
+.try-again-image-modal {
+  position: relative;
+  width: min(94vw, 1120px);
+  max-height: 88svh;
+  display: grid;
+  place-items: center;
+}
+.try-again-image-modal img {
+  display: block;
+  width: 100%;
+  max-height: 84svh;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 45px rgba(24,15,12,.28));
+}
+.try-again-image-modal .modal-close {
+  top: -12px;
+  right: -12px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(180,147,82,.75);
+  background: #fffaf1;
+  box-shadow: 0 4px 16px rgba(24,15,12,.18);
+  font-size: 2rem;
+}
+.rsvp-modal {
+  width: min(92vw, 540px);
+  max-height: min(88svh, 820px);
+  padding: clamp(30px, 6vw, 48px) clamp(23px, 5vw, 42px) clamp(26px, 5vw, 40px);
+  border: 1px solid rgba(180,147,82,.95);
+  border-radius: 4px;
+  outline: 1px solid rgba(180,147,82,.32);
+  outline-offset: -7px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(216,193,140,.17), transparent 48%),
+    linear-gradient(145deg, #fffaf1, #f8efdf 68%, #fffaf1);
+  box-shadow: 0 28px 90px rgba(24,15,12,.3), 0 5px 18px rgba(56,43,39,.1);
+}
+.rsvp-modal::before {
+  content: '✧  ❧  ✧';
+  display: block;
+  margin: 0 0 13px;
+  color: var(--gold);
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: .2em;
+}
+.rsvp-modal .eyebrow { margin-bottom: 9px; text-align: center; font-size: .63rem; letter-spacing: .16em; }
+.rsvp-modal h2 { margin: 0 0 10px; text-align: center; font-size: clamp(2rem, 6vw, 2.65rem); }
+.rsvp-modal .modal-intro { max-width: 340px; margin: 0 auto 25px; text-align: center; font-size: .93rem; line-height: 1.65; }
+.rsvp-modal form { gap: 8px; }
+.rsvp-modal form > label { margin-top: 4px; color: #5b382b; font-size: .82rem; letter-spacing: .025em; }
+.rsvp-modal input:not([type=radio]), .rsvp-modal select {
+  min-height: 48px;
+  margin: 0 0 7px;
+  padding: 12px 14px;
+  border: 1px solid rgba(180,147,82,.55);
+  border-radius: 3px;
+  background: rgba(255,253,248,.9);
+  color: var(--brown);
+  box-shadow: inset 0 1px 3px rgba(56,43,39,.035);
+  font-size: 1rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.rsvp-modal input::placeholder { color: #a29485; }
+.rsvp-modal input:focus, .rsvp-modal select:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px rgba(84,29,43,.09);
+  outline: none;
+}
+.submit-rsvp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  min-height: 50px;
+  margin-top: 8px;
+  padding: 14px 20px;
+  border: 1px solid #541d2b;
+  border-radius: 3px;
+  background: linear-gradient(145deg, #6a2937, #541d2b);
+  color: #fffaf1;
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 7px 15px rgba(84,29,43,.18);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.submit-rsvp:hover { background: #6a2937; transform: translateY(-2px); box-shadow: 0 10px 19px rgba(84,29,43,.22); }
+.form-note { margin: 9px 0 0; text-align: center; font-size: .68rem; }
+.thank-you-view { padding: 20px 0 8px; }
+.thank-you-view h2 { margin-bottom: 12px; }
+.rsvp-modal .modal-close { top: 10px; right: 12px; }
+@media (max-width: 480px) {
+  .rsvp-section { padding-top: 8px; padding-bottom: 30px; }
+  .rsvp-artwork-wrap { width: 100%; }
+  .rsvp-choice { width: 56%; }
+  .rsvp-choice-yes { top: 53.4%; }
+  .rsvp-choice-no { top: 61.6%; }
+  .try-again-image-modal { width: 96vw; }
+  .try-again-image-modal .modal-close { top: -13px; right: -2px; }
+  .rsvp-modal { width: 94vw; padding: 35px 23px 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop:not([hidden]), .modal-backdrop:not([hidden]) > article { animation: none; }
+}
+
+
+/* Refinements: compact footer, curved RSVP controls, and opening interaction lock. */
+body.is-car-running {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+body.is-car-running #invitationSite {
+  pointer-events: none;
+  user-select: none;
+}
+body.is-car-running .wedding-car-art { pointer-events: none; }
+
+/* Compact illustrated footer: cropped artwork, responsive and tappable contact. */
+.closing-section {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  background: #f1e7d8;
+  border-top: 1px solid rgba(180, 147, 82, .28);
+  box-shadow: 0 -5px 18px rgba(75, 45, 25, .05);
+}
+.footer-image-link {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  line-height: 0;
+  text-decoration: none;
+}
+.footer-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 190px;
+  object-fit: contain;
+  object-position: center;
+}
+@media (max-width: 480px) {
+  .footer-image { max-height: 130px; }
+}
+
+/* Transparent hit areas over the button illustrations baked into the RSVP artwork. */
+.rsvp-choice {
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+}
+.rsvp-choice-yes,
+.rsvp-choice-no { border: 0; background: transparent; }
+.rsvp-choice:hover { filter: none; }
+.submit-rsvp { border-radius: 999px; }
+
+/* RSVP form refinements for the added fields. */
+.rsvp-modal form { display: grid; gap: 7px; }
+.rsvp-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  margin: 2px 0 5px;
+}
+.rsvp-field { display: flex; flex-direction: column; min-width: 0; gap: 6px; }
+.rsvp-field label { color: #5b382b; font-size: .78rem; letter-spacing: .01em; }
+.rsvp-modal input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+.rsvp-modal input[type="number"]::-webkit-inner-spin-button,
+.rsvp-modal input[type="number"]::-webkit-outer-spin-button { opacity: 1; }
+.rsvp-modal input, .rsvp-modal select { min-width: 0; border-radius: 12px; }
+.rsvp-modal input[type="date"] { font-size: .9rem; }
+@media (max-width: 480px) {
+  .closing-section { gap: 4px 12px; padding: 11px 10px calc(12px + env(safe-area-inset-bottom)); }
+  .rsvp-form-grid { gap: 8px; }
+  .rsvp-field label { font-size: .74rem; }
+  .rsvp-modal input[type="date"] { padding: 10px 8px; font-size: .82rem; }
+}
