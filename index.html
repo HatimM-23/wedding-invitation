@@ -33,10 +33,10 @@
         <!-- The stationery is one composed image; the car remains a separate animated asset. -->
         <div class="opening-art-frame" id="openingArtFrame">
           <img class="opening-composition" id="openingComposition" src="./assets/opening-composition.webp" decoding="async" alt="Wedding invitation flat lay with an open envelope, couple photographs, invitation card, keepsake tag and Read me tag" draggable="false" />
+          <!-- The car is positioned inside the same frame as the artwork so its path is identical on desktop and mobile. -->
+          <img class="wedding-car-art" id="weddingCar" src="./assets/wedding-car.webp" decoding="async" alt="Illustrated vintage wedding car carrying the bride and groom" draggable="false" />
           <button class="readme-hotspot" id="readmeButton" type="button" aria-label="Read a note from the couple" aria-haspopup="dialog" aria-controls="letterModal"></button>
         </div>
-        <!-- The car remains a separate transparent asset and drives over the fading-in composition. -->
-        <img class="wedding-car-art" id="weddingCar" src="./assets/wedding-car.webp" decoding="async" alt="Illustrated vintage wedding car carrying the bride and groom" draggable="false" />
       </section>
 
       <!-- Continuous scroll content: this is not a page-by-page slideshow. -->
@@ -95,6 +95,9 @@
           <label for="whatsappNumber">WhatsApp number</label>
           <input id="whatsappNumber" name="whatsappNumber" type="tel" inputmode="numeric" autocomplete="tel" placeholder="10-digit mobile number" pattern="[0-9]{10}" maxlength="10" minlength="10" title="Enter a 10-digit WhatsApp number" required />
 
+          <label for="arrivalLocation">Arrival location</label>
+          <input id="arrivalLocation" name="arrivalLocation" type="text" autocomplete="address-level2" placeholder="City / airport / railway station" maxlength="150" required />
+
           <div class="rsvp-form-grid">
             <div class="rsvp-field">
               <label for="arrivalDate">Arrival date</label>
@@ -114,7 +117,9 @@
             </div>
           </div>
           <button class="submit-rsvp" type="submit">Send response <span aria-hidden="true">↗</span></button>
-          <p class="form-note">Your response will be confirmed on screen. Online response storage will be connected before the website goes live.</p>
+          <p class="form-error" id="rsvpFormError" role="alert" hidden></p>
+          <input class="rsvp-honeypot" type="text" name="website" id="rsvpWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
         </form>
       </div>
       <div class="thank-you-view" id="thankYouView" hidden>
@@ -124,5 +129,15 @@
       </div>
     </article>
   </div>
+  <div class="rsvp-complete-screen" id="thankYouScreen" role="status" aria-live="polite" aria-label="RSVP confirmation" tabindex="-1" hidden>
+    <div class="rsvp-complete-message">
+      <p class="eyebrow">Response received</p>
+      <div class="thank-you-mark" aria-hidden="true">✧</div>
+      <h1>Thank you for joining us</h1>
+      <p>We can’t wait to celebrate together.</p>
+      <p class="letter-signoff">Murtuza &amp; Zahabiya</p>
+    </div>
+  </div>
+  <iframe id="rsvpSubmitFrame" name="rsvpSubmitFrame" title="RSVP submission" class="rsvp-submit-frame" aria-hidden="true"></iframe>
 </body>
 </html>
