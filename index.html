@@ -6,16 +6,16 @@
   <meta name="theme-color" content="#f6f0e5" />
   <meta name="description" content="A wedding invitation from Murtuza and Zahabiya." />
   <title>Murtuza &amp; Zahabiya — Wedding Invitation</title>
-  <link rel="preload" as="image" href="./assets/landing-background.png" />
+  <link rel="preload" as="image" href="./assets/landing-background.webp" fetchpriority="high" />
   <link rel="stylesheet" href="./styles.css" />
   <script defer src="./main.js"></script>
 </head>
 <body>
-  <!-- STEP 1: The landing page. Replace assets/landing-background.png to change its artwork. -->
+  <!-- STEP 1: The landing page. Replace assets/landing-background.webp to change its artwork. -->
   <main id="siteRoot">
     <section class="landing" id="landing" aria-label="Wedding invitation opening">
       <div class="scene-backdrop" aria-hidden="true"></div>
-      <img class="scene-image" id="sceneImage" src="./assets/landing-background.png" alt="" draggable="false" />
+      <img class="scene-image" id="sceneImage" src="./assets/landing-background.webp" fetchpriority="high" decoding="async" alt="" draggable="false" />
       <div class="scene-tone" aria-hidden="true"></div>
       <div class="landing-copy">
         <p class="invitation-kicker reveal-line" id="invitationLine">
@@ -32,28 +32,28 @@
       <section class="opening-collage" id="openingCollage" aria-label="Wedding invitation details">
         <!-- The stationery is one composed image; the car remains a separate animated asset. -->
         <div class="opening-art-frame" id="openingArtFrame">
-          <img class="opening-composition" id="openingComposition" src="./assets/opening-composition.png" alt="Wedding invitation flat lay with an open envelope, couple photographs, invitation card, keepsake tag and Read me tag" draggable="false" />
+          <img class="opening-composition" id="openingComposition" src="./assets/opening-composition.webp" decoding="async" alt="Wedding invitation flat lay with an open envelope, couple photographs, invitation card, keepsake tag and Read me tag" draggable="false" />
           <button class="readme-hotspot" id="readmeButton" type="button" aria-label="Read a note from the couple" aria-haspopup="dialog" aria-controls="letterModal"></button>
         </div>
         <!-- The car remains a separate transparent asset and drives over the fading-in composition. -->
-        <img class="wedding-car-art" id="weddingCar" src="./assets/wedding-car.png" alt="Illustrated vintage wedding car carrying the bride and groom" draggable="false" />
+        <img class="wedding-car-art" id="weddingCar" src="./assets/wedding-car.webp" decoding="async" alt="Illustrated vintage wedding car carrying the bride and groom" draggable="false" />
       </section>
 
       <!-- Continuous scroll content: this is not a page-by-page slideshow. -->
       <!-- Continuous illustrated wedding timeline artwork. -->
       <section class="timeline-section" id="timelineSection" aria-label="Wedding event timeline">
-        <img class="continuous-timeline-art" src="./assets/continuous-event-timeline.png" alt="Continuous illustrated wedding timeline showing Sharbat, Engagement, Darees, Baraat and Nikah, and Reception" loading="lazy" />
+        <img class="continuous-timeline-art" src="./assets/continuous-event-timeline.webp" alt="Continuous illustrated wedding timeline showing Sharbat, Engagement, Darees, Baraat and Nikah, and Reception" loading="lazy" />
       </section>
 
       <!-- Single supplied wardrobe-guidelines artwork, kept unchanged. -->
       <section class="wardrobe-guidelines-section" id="dressCodeSection" aria-label="Wardrobe guidelines for the wedding events">
-        <img class="wardrobe-guidelines-art" src="./assets/wardrobe-guidelines.png" alt="Wardrobe guidelines showing attire suggestions for Sharbat Soirée, Green Symphony, Noor-e-Mehfil, Ivory Eden, and Shah-e-Zar" loading="lazy" />
+        <img class="wardrobe-guidelines-art" src="./assets/wardrobe-guidelines.webp" alt="Wardrobe guidelines showing attire suggestions for Sharbat Soirée, Green Symphony, Noor-e-Mehfil, Ivory Eden, and Shah-e-Zar" loading="lazy" />
       </section>
 
       <!-- RSVP: the supplied portrait artwork is the backdrop; controls remain real HTML. -->
       <section class="rsvp-section" id="rsvpSection" aria-label="Wedding RSVP">
         <div class="rsvp-artwork-wrap">
-          <img class="rsvp-background-art" src="./assets/rsvp-background.png" alt="Ornate ivory, burgundy and antique-gold invitation asking Will you be joining us?" loading="lazy" />
+          <img class="rsvp-background-art" src="./assets/rsvp-background.webp" alt="Ornate ivory, burgundy and antique-gold invitation asking Will you be joining us?" loading="lazy" />
           <div class="rsvp-actions" aria-label="Choose your response">
             <!-- Transparent hit areas sit directly over the button artwork in rsvp-background.png. -->
             <button class="rsvp-choice rsvp-choice-yes" id="rsvpButton" type="button" aria-label="Yes, gladly! Open the RSVP form" aria-haspopup="dialog" aria-controls="rsvpModal"></button>
@@ -68,7 +68,7 @@
   <div class="modal-backdrop letter-backdrop" id="letterModal" role="dialog" aria-modal="true" aria-label="A note from the couple" hidden>
     <article class="note-image-modal">
       <button class="modal-close" type="button" data-close-modal aria-label="Close heartfelt message">×</button>
-      <img src="./assets/note-from-us.png" alt="A Note from Us: Our journey is made special by the love and support of our family and friends like you. We feel truly blessed to have you be a part of these celebrations. We can’t wait to share these beautiful moments with you." />
+      <img src="./assets/note-from-us.webp" loading="lazy" alt="A Note from Us: Our journey is made special by the love and support of our family and friends like you. We feel truly blessed to have you be a part of these celebrations. We can’t wait to share these beautiful moments with you." />
     </article>
   </div>
 
@@ -76,7 +76,7 @@
   <div class="modal-backdrop try-again-backdrop" id="tryAgainModal" role="dialog" aria-modal="true" aria-label="Try again" hidden>
     <article class="try-again-image-modal">
       <button class="modal-close" type="button" data-close-modal aria-label="Close try again note">×</button>
-      <img src="./assets/try-again-note.png" alt="Try again XX" />
+      <img src="./assets/try-again-note.webp" loading="lazy" alt="Try again XX" />
     </article>
   </div>
 
