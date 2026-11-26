@@ -619,7 +619,8 @@ html { scroll-behavior: smooth; }
 body.is-car-running {
   overflow: hidden !important;
   overscroll-behavior: none;
-  touch-action: none;
+  /* Do not disable touch gestures globally: iOS Safari can retain a
+     touch-action:none state longer than expected during viewport changes. */
 }
 body.is-car-running #invitationSite {
   pointer-events: none;
