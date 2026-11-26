@@ -963,3 +963,37 @@ body {
   position: relative !important;
   top: 60px !important;
 }
+
+
+/* Continuous viewport-edge fade. The fixed ivory gradients gently mask
+   content as it enters/leaves the top and bottom of the screen while scrolling.
+   They do not intercept clicks or alter the layout/scroll position. */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  height: 46px;
+  pointer-events: none;
+}
+body::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--ivory) 0%,
+    rgba(246, 240, 229, .78) 28%,
+    rgba(246, 240, 229, 0) 100%
+  );
+}
+body::after {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--ivory) 0%,
+    rgba(246, 240, 229, .78) 28%,
+    rgba(246, 240, 229, 0) 100%
+  );
+}
+

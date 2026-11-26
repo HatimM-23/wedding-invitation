@@ -106,9 +106,17 @@ openTarget.addEventListener('click', async () => {
     window.setTimeout(() => {
       invitationSite.classList.remove('is-opening');
       invitationSite.classList.add('is-settled');
+
+      // Enable scrolling and interactions, including Read Me.
       invitationSite.inert = false;
       document.body.classList.remove('is-car-running');
-    }, 8150);
+
+      // Reveal all scroll-dependent elements automatically.
+      invitationSite.querySelectorAll('.reveal-on-scroll').forEach(element => {
+        element.classList.add('is-in-view');
+      });
+
+    }, 4000);
 
     document.dispatchEvent(new CustomEvent('wedding:open-invitation'));
 
@@ -448,19 +456,21 @@ rsvpForm?.addEventListener('submit', async event => {
   }
 });
 
-// Scroll reveals for later sections.
-const revealObserver = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-in-view');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.16 }
-);
+// One-time fade-and-rise for the event timeline.
+const timelineArtwork = document.querySelector('.continuous-timeline-art');
 
-document
-  .querySelectorAll('.reveal-on-scroll')
-  .forEach(element => revealObserver.observe(element));
+if (timelineArtwork) {
+  const timelineObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in-view');
+          timelineObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+
+  timelineObserver.observe(timelineArtwork);
+}
