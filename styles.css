@@ -330,8 +330,7 @@ img { max-width: 100%; }
 }
 .invitation-site.is-opening .wedding-car-art { animation: car-drive 8000ms cubic-bezier(.18,.68,.28,1) 50ms forwards; }
 .invitation-site.is-settled .wedding-car-art { opacity: 0; visibility: hidden; }
-/* Prevent scroll on the landing page only; after opening, normal page scrolling is restored. */
-body:has(.landing:not(.is-opened)) { overflow: hidden; }
+/* The landing screen is viewport-sized; leave document scrolling under the browser's native control. */
 @keyframes composition-reveal {
   0% { opacity: .06; transform: scale(1.012); filter: saturate(.72); }
   100% { opacity: 1; transform: scale(1); filter: saturate(1); }
@@ -617,10 +616,8 @@ html { scroll-behavior: smooth; }
 
 /* Refinements: compact footer, curved RSVP controls, and opening interaction lock. */
 body.is-car-running {
-  overflow: hidden !important;
-  overscroll-behavior: none;
-  /* Do not disable touch gestures globally: iOS Safari can retain a
-     touch-action:none state longer than expected during viewport changes. */
+  /* Keep the document natively scrollable on iOS while the car animation runs. */
+  overscroll-behavior-y: auto;
 }
 body.is-car-running #invitationSite {
   pointer-events: none;
@@ -736,7 +733,7 @@ body {
   width: min(100%, var(--invitation-canvas-width));
   margin-inline: auto;
   background: var(--ivory);
-  overflow: clip;
+  overflow: visible;
 }
 .opening-collage {
   width: 100%;
@@ -966,34 +963,74 @@ body {
 }
 
 
-/* Continuous viewport-edge fade. The fixed ivory gradients gently mask
-   content as it enters/leaves the top and bottom of the screen while scrolling.
-   They do not intercept clicks or alter the layout/scroll position. */
+/* Continuous viewport-edge fade with opaque outer edges.
+   The solid ivory portion hides artwork during mobile overscroll; the inner
+   gradient softly blends content into the page. These fixed masks never
+   intercept touches or change the document's scrollable height. */
+html,
+body {
+  background-color: var(--ivory);
+}
+
 body::before,
 body::after {
   content: '';
   position: fixed;
   left: 0;
   right: 0;
-  z-index: 90;
-  height: 46px;
+  z-index: 9990;
+  height: 58px;
   pointer-events: none;
+  will-change: transform;
 }
+
 body::before {
   top: 0;
   background: linear-gradient(
     to bottom,
-    var(--ivory) 0%,
-    rgba(246, 240, 229, .78) 28%,
-    rgba(246, 240, 229, 0) 100%
+    var(--ivory) 0px,
+    var(--ivory) 18px,
+    rgba(246, 240, 229, .96) 27px,
+    rgba(246, 240, 229, .72) 39px,
+    rgba(246, 240, 229, 0) 58px
   );
+  box-shadow: 0 5px 12px rgba(56, 43, 39, .055);
 }
+
 body::after {
   bottom: 0;
   background: linear-gradient(
     to top,
-    var(--ivory) 0%,
-    rgba(246, 240, 229, .78) 28%,
-    rgba(246, 240, 229, 0) 100%
+    var(--ivory) 0px,
+    var(--ivory) 18px,
+    rgba(246, 240, 229, .96) 27px,
+    rgba(246, 240, 229, .72) 39px,
+    rgba(246, 240, 229, 0) 58px
   );
+  box-shadow: 0 -5px 12px rgba(56, 43, 39, .055);
+}
+
+/* Prevent the browser's rubber-band overscroll from exposing content
+   outside the document edges where supported, without disabling scrolling. */
+html {
+  overscroll-behavior-y: none;
+}
+
+
+
+/* Mobile scroll reliability: keep the document as the native vertical scroller. */
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+.invitation-site {
+  overflow-x: clip;
+  overflow-y: visible;
 }
