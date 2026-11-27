@@ -94,10 +94,10 @@ img { max-width: 100%; }
 .envelope-composition { position: absolute; z-index: 3; top: 31%; left: 50%; width: min(86vw, 650px, 70svh); aspect-ratio: 1312 / 1199; opacity: 0; transform: translate(-50%, -50%) translateY(15px) scale(.97); pointer-events: none; }
 .open-envelope-art, .envelope-front-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: fill; user-select: none; pointer-events: none; }
 .open-envelope-art { z-index: 1; }
-.couple-polaroid-art { position: absolute; z-index: 2; top: 11%; left: 7%; width: 24%; height: auto; opacity: 0; transform: translateY(10px) rotate(10deg) scale(.96); filter: drop-shadow(0 6px 7px rgba(56,43,39,.13)); pointer-events: none; }
+.couple-polaroid-art { position: absolute; z-index: 2; top: 11%; left: 7%; width: 24%; height: auto; opacity: 0; transform: translateY(10px) rotate(10deg) scale(.96); filter: none; pointer-events: none; }
 .envelope-front-art { z-index: 3; /* This layer is a duplicate front view for the pocket illusion. */ clip-path: polygon(0 39%, 50% 77%, 100% 39%, 100% 100%, 0 100%); }
 .together-tag { position: absolute; z-index: 5; top: 17%; left: 59%; width: clamp(115px, 21vw, 230px); height: auto; opacity: 0; transform: rotate(7deg); pointer-events: none; }
-.wedding-card { position: absolute; z-index: 6; top: 49%; left: max(3%, calc(50% - 440px)); width: clamp(205px, 36vw, 370px); min-height: 390px; padding: clamp(22px, 3vw, 38px) clamp(17px, 2.8vw, 31px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.42); outline-offset: -7px; background: linear-gradient(145deg, #fffaf0, #f4e8d5); box-shadow: 0 15px 30px rgba(56,43,39,.15); text-align: center; opacity: 0; transform: translateX(-45vw) rotate(-3deg); }
+.wedding-card { position: absolute; z-index: 6; top: 49%; left: max(3%, calc(50% - 440px)); width: clamp(205px, 36vw, 370px); min-height: 390px; padding: clamp(22px, 3vw, 38px) clamp(17px, 2.8vw, 31px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.42); outline-offset: -7px; background: linear-gradient(145deg, #fffaf0, #f4e8d5); box-shadow: none; text-align: center; opacity: 0; transform: translateX(-45vw) rotate(-3deg); }
 .wedding-card::before, .wedding-card::after { content: ''; position: absolute; width: 27px; height: 27px; border: 1px solid var(--gold); opacity: .65; }
 .wedding-card::before { top: 11px; left: 11px; border-right: 0; border-bottom: 0; }
 .wedding-card::after { right: 11px; bottom: 11px; border-left: 0; border-top: 0; }
@@ -107,8 +107,8 @@ img { max-width: 100%; }
 .wedding-card h2 span { color: var(--gold); font-style: normal; }
 .card-divider { margin: 9px auto; color: var(--gold); }
 .card-location { margin: 18px 0 0; color: var(--burgundy); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
-.park-polaroid { position: absolute; z-index: 5; top: 32%; right: max(2%, calc(50% - 440px)); width: clamp(155px, 28vw, 275px); height: auto; opacity: 0; transform: translateX(42vw) rotate(-15deg); filter: drop-shadow(0 10px 12px rgba(56,43,39,.2)); pointer-events: none; }
-.readme-tag { position: absolute; z-index: 8; bottom: 9%; left: 50%; width: 155px; min-height: 64px; display: grid; place-items: center; padding: 13px 18px; border: 1px solid var(--gold); border-radius: 2px; background: #fff8ec; box-shadow: 0 7px 15px rgba(56,43,39,.14); color: var(--burgundy); cursor: pointer; font-size: 1.1rem; font-style: italic; opacity: 0; transform: translate(-50%, 140px) rotate(4deg); }
+.park-polaroid { position: absolute; z-index: 5; top: 32%; right: max(2%, calc(50% - 440px)); width: clamp(155px, 28vw, 275px); height: auto; opacity: 0; transform: translateX(42vw) rotate(-15deg); filter: none; pointer-events: none; }
+.readme-tag { position: absolute; z-index: 8; bottom: 9%; left: 50%; width: 155px; min-height: 64px; display: grid; place-items: center; padding: 13px 18px; border: 1px solid var(--gold); border-radius: 2px; background: #fff8ec; box-shadow: none; color: var(--burgundy); cursor: pointer; font-size: 1.1rem; font-style: italic; opacity: 0; transform: translate(-50%, 140px) rotate(4deg); }
 .readme-tag img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .readme-tag span { position: relative; z-index: 2; }
 .wedding-car-art { position: absolute; z-index: 12; top: 54%; left: 0; width: min(138vw, 980px); max-width: none; height: auto; opacity: 0; transform: translateX(-115%); pointer-events: none; }
@@ -167,7 +167,7 @@ img { max-width: 100%; }
 .timeline-section { position: relative; }
 .timeline-heading { position: sticky; top: 0; z-index: 8; padding: 16px 0 18px; margin-bottom: 24px; background: linear-gradient(to bottom, var(--ivory) 78%, rgba(246,240,229,0)); }
 .timeline { position: relative; display: flex; flex-direction: column; gap: 22px; padding: 4px 0 24px; }
-.event-row { position: relative; z-index: 1; display: grid; grid-template-columns: clamp(108px, 18vw, 190px) minmax(0, 1fr); align-items: stretch; gap: clamp(14px, 3vw, 28px); width: 100%; min-height: clamp(210px, 30vh, 270px); padding: 14px; border: 1px solid rgba(180,147,82,.45); border-radius: 18px 44px 18px 44px; background: rgba(255,250,241,.72); box-shadow: 0 10px 28px rgba(56,43,39,.055); scroll-margin-top: 130px; }
+.event-row { position: relative; z-index: 1; display: grid; grid-template-columns: clamp(108px, 18vw, 190px) minmax(0, 1fr); align-items: stretch; gap: clamp(14px, 3vw, 28px); width: 100%; min-height: clamp(210px, 30vh, 270px); padding: 14px; border: 1px solid rgba(180,147,82,.45); border-radius: 18px 44px 18px 44px; background: rgba(255,250,241,.72); box-shadow: none; scroll-margin-top: 130px; }
 .event-row:nth-child(even) { grid-template-columns: minmax(0, 1fr) clamp(108px, 18vw, 190px); border-radius: 44px 18px 44px 18px; }
 .event-art { display: block; width: 100%; height: 100%; min-height: 180px; max-height: 250px; object-fit: cover; object-position: center; border-radius: 12px 34px 12px 34px; }
 .event-row:nth-child(even) .event-art { grid-column: 2; grid-row: 1; border-radius: 34px 12px 34px 12px; }
@@ -184,19 +184,19 @@ img { max-width: 100%; }
 .rsvp-section { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .rsvp-envelope-button { position: relative; width: min(75vw, 320px); margin: 28px 0 8px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: transform 350ms var(--ease-luxury); }
 .rsvp-envelope-button:hover { transform: translateY(-5px) rotate(-1deg); }
-.rsvp-envelope-button img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 16px rgba(56,43,39,.12)); }
+.rsvp-envelope-button img { display: block; width: 100%; height: auto; filter: none; }
 .rsvp-envelope-button span { position: absolute; left: 50%; bottom: 24%; transform: translateX(-50%); color: var(--burgundy); font-size: 1rem; letter-spacing: .16em; text-transform: uppercase; }
 .rsvp-hint { color: #75685d; font-size: .9rem; }
 .closing-section { padding: 55px 18px 70px; text-align: center; background: #f1e7d8; color: #75685d; }
 .closing-flourish { color: var(--gold); font-size: 1.5rem; }
 .closing-section h2 { margin: 8px 0; color: var(--burgundy); font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 400; font-style: italic; }
 .closing-location { font: .68rem var(--sans); letter-spacing: .15em; text-transform: uppercase; }
-.reveal-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity 800ms ease, transform 850ms var(--ease-luxury); }
+.reveal-on-scroll { opacity: 0; transform: translateY(28px); transition: opacity 3000ms ease, transform 3000ms var(--ease-luxury); }
 .reveal-on-scroll.is-in-view { opacity: 1; transform: translateY(0); }
 
 /* Modal windows are parchment letters; the dim layer is translucent. */
 .modal-backdrop { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(56,43,39,.6); backdrop-filter: blur(3px); }
-.modal-paper { position: relative; width: min(60vw, 680px); max-height: min(84svh, 850px); overflow: auto; padding: clamp(28px, 5vw, 58px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.35); outline-offset: -8px; background: #fffaf1; box-shadow: 0 24px 90px rgba(24,15,12,.24); }
+.modal-paper { position: relative; width: min(60vw, 680px); max-height: min(84svh, 850px); overflow: auto; padding: clamp(28px, 5vw, 58px); border: 1px solid var(--gold); outline: 1px solid rgba(180,147,82,.35); outline-offset: -8px; background: #fffaf1; box-shadow: none; }
 .modal-paper::before { content: '✧'; display: block; margin-bottom: 16px; color: var(--gold); text-align: center; font-size: 1.25rem; }
 .modal-close { position: absolute; z-index: 2; top: 13px; right: 16px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--burgundy); font-size: 1.8rem; line-height: 1; cursor: pointer; }
 .modal-close:hover { background: rgba(180,147,82,.12); }
@@ -208,7 +208,7 @@ img { max-width: 100%; }
 .rsvp-modal form { display: flex; flex-direction: column; gap: 9px; }
 .rsvp-modal form > label, .rsvp-modal legend { color: var(--burgundy); font-size: .82rem; }
 .rsvp-modal input:not([type=radio]), .rsvp-modal select, .rsvp-modal textarea { width: 100%; margin: 0 0 8px; padding: 12px 13px; border: 1px solid rgba(180,147,82,.55); border-radius: 0; background: #fffdf8; color: var(--brown); outline: none; }
-.rsvp-modal input:focus, .rsvp-modal select:focus, .rsvp-modal textarea:focus { border-color: var(--burgundy); box-shadow: 0 0 0 2px rgba(84,29,43,.08); }
+.rsvp-modal input:focus, .rsvp-modal select:focus, .rsvp-modal textarea:focus { border-color: var(--burgundy); box-shadow: none; }
 .rsvp-modal fieldset { display: flex; flex-direction: column; gap: 10px; margin: 3px 0 9px; padding: 12px 14px; border: 1px solid rgba(180,147,82,.45); }
 .rsvp-modal legend { padding: 0 5px; }
 .radio-label { display: flex; align-items: center; gap: 9px; color: #5f5148; font-size: .9rem; }
@@ -380,11 +380,11 @@ img { max-width: 100%; }
 }
 .note-image-modal img {
   display: block; width: 100%; max-height: 86svh; object-fit: contain;
-  filter: drop-shadow(0 18px 45px rgba(24,15,12,.25));
+  filter: none;
 }
 .note-image-modal .modal-close {
   top: -12px; right: -12px; width: 42px; height: 42px; border: 1px solid rgba(180,147,82,.75);
-  background: #fffaf1; box-shadow: 0 4px 16px rgba(24,15,12,.18); font-size: 2rem;
+  background: #fffaf1; box-shadow: none; font-size: 2rem;
 }
 @media (max-width: 700px) {
   .readme-hotspot { left: 67%; top: 79%; width: 29%; height: 18%; }
@@ -455,7 +455,7 @@ html { scroll-behavior: smooth; }
   margin: 0 auto;
   isolation: isolate;
   line-height: 0;
-  filter: drop-shadow(0 14px 22px rgba(67, 39, 24, .12));
+  filter: none;
 }
 .rsvp-background-art {
   display: block;
@@ -486,7 +486,7 @@ html { scroll-behavior: smooth; }
   pointer-events: auto;
   transform: translateX(-50%);
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: background-color 180ms ease, transform 180ms ease;
 }
 /* The supplied RSVP artwork already contains the visible button labels and decoration.
    These real HTML buttons are transparent hit areas aligned over that artwork. */
@@ -518,7 +518,7 @@ html { scroll-behavior: smooth; }
   width: 100%;
   max-height: 84svh;
   object-fit: contain;
-  filter: drop-shadow(0 18px 45px rgba(24,15,12,.28));
+  filter: none;
 }
 .try-again-image-modal .modal-close {
   top: -12px;
@@ -527,7 +527,7 @@ html { scroll-behavior: smooth; }
   height: 42px;
   border: 1px solid rgba(180,147,82,.75);
   background: #fffaf1;
-  box-shadow: 0 4px 16px rgba(24,15,12,.18);
+  box-shadow: none;
   font-size: 2rem;
 }
 .rsvp-modal {
@@ -541,7 +541,7 @@ html { scroll-behavior: smooth; }
   background:
     radial-gradient(ellipse at 50% 0%, rgba(216,193,140,.17), transparent 48%),
     linear-gradient(145deg, #fffaf1, #f8efdf 68%, #fffaf1);
-  box-shadow: 0 28px 90px rgba(24,15,12,.3), 0 5px 18px rgba(56,43,39,.1);
+  box-shadow: none;
 }
 .rsvp-modal::before {
   content: '✧  ❧  ✧';
@@ -565,14 +565,14 @@ html { scroll-behavior: smooth; }
   border-radius: 3px;
   background: rgba(255,253,248,.9);
   color: var(--brown);
-  box-shadow: inset 0 1px 3px rgba(56,43,39,.035);
+  box-shadow: none;
   font-size: 1rem;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition: border-color 180ms ease;
 }
 .rsvp-modal input::placeholder { color: #a29485; }
 .rsvp-modal input:focus, .rsvp-modal select:focus {
   border-color: var(--burgundy);
-  box-shadow: 0 0 0 3px rgba(84,29,43,.09);
+  box-shadow: none;
   outline: none;
 }
 .submit-rsvp {
@@ -591,10 +591,10 @@ html { scroll-behavior: smooth; }
   letter-spacing: .12em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 7px 15px rgba(84,29,43,.18);
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  box-shadow: none;
+  transition: transform 200ms ease;
 }
-.submit-rsvp:hover { background: #6a2937; transform: translateY(-2px); box-shadow: 0 10px 19px rgba(84,29,43,.22); }
+.submit-rsvp:hover { background: #6a2937; transform: translateY(-2px); box-shadow: none; }
 .form-note { margin: 9px 0 0; text-align: center; font-size: .68rem; }
 .thank-you-view { padding: 20px 0 8px; }
 .thank-you-view h2 { margin-bottom: 12px; }
@@ -633,7 +633,7 @@ body.is-car-running .wedding-car-art { pointer-events: none; }
   line-height: 0;
   background: #f1e7d8;
   border-top: 1px solid rgba(180, 147, 82, .28);
-  box-shadow: 0 -5px 18px rgba(75, 45, 25, .05);
+  box-shadow: none;
 }
 .footer-image-link {
   display: block;
@@ -772,9 +772,7 @@ body {
   max-width: none;
   height: auto;
   opacity: 0;
-  filter: brightness(1.08) contrast(1.45) saturate(1.2)
-    drop-shadow(0 10px 9px rgba(45, 30, 24, .34))
-    drop-shadow(0 2px 3px rgba(45, 30, 24, .24));
+  filter: brightness(1.08) contrast(1.45) saturate(1.2);
   transform: translateX(0);
   pointer-events: none;
   will-change: transform, opacity;
@@ -994,7 +992,7 @@ body::before {
     rgba(246, 240, 229, .72) 39px,
     rgba(246, 240, 229, 0) 58px
   );
-  box-shadow: 0 5px 12px rgba(56, 43, 39, .055);
+  box-shadow: none;
 }
 
 body::after {
@@ -1007,7 +1005,7 @@ body::after {
     rgba(246, 240, 229, .72) 39px,
     rgba(246, 240, 229, 0) 58px
   );
-  box-shadow: 0 -5px 12px rgba(56, 43, 39, .055);
+  box-shadow: none;
 }
 
 /* Prevent the browser's rubber-band overscroll from exposing content
