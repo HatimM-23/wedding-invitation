@@ -1018,19 +1018,32 @@ html {
 
 
 
-/* Mobile scroll reliability: keep the document as the native vertical scroller. */
+/* Mobile scrolling: keep the document as the native vertical scroller. */
 html {
   min-height: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: auto;
 }
+
 body {
   min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: visible;
+  margin: 0;
+  overflow: visible;
 }
+
+#siteRoot {
+  min-height: 100%;
+  overflow: visible;
+}
+
 .invitation-site {
   overflow-x: clip;
   overflow-y: visible;
+}
+
+body.is-car-running {
+  overflow: visible !important;
+  overscroll-behavior: auto;
 }
